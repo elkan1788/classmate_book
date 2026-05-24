@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
 import { useMemo, useState } from "react";
+import shanghaiSkyline from "./assets/shanghai-skyline.jpg";
 import { classmates } from "./data/classmates";
 import type { Classmate, ProfileTemplate } from "./types";
 
@@ -64,7 +65,7 @@ function App() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[var(--ink)] text-[var(--paper)]">
+    <main className="min-h-screen overflow-hidden bg-[var(--paper)] text-[var(--ink)]">
       <Hero query={query} onQueryChange={setQuery} />
 
       <section className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-8 sm:px-8">
@@ -77,7 +78,7 @@ function App() {
               同学名片墙
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-7 text-white/64">
+          <p className="max-w-xl text-sm leading-7 text-[var(--muted)]">
             搜索姓名、行业、3C方向或兴趣爱好，快速找到想了解的同学。
           </p>
         </div>
@@ -93,7 +94,7 @@ function App() {
         </div>
 
         {visibleClassmates.length === 0 && (
-          <div className="rounded-lg border border-white/12 bg-white/6 p-10 text-center text-white/72">
+          <div className="rounded-lg border border-[var(--line)] bg-[var(--paper-soft)] p-10 text-center text-[var(--muted)]">
             没有找到匹配的同学，换个关键词试试。
           </div>
         )}
@@ -127,33 +128,38 @@ function AccessGate({ onAuthenticated }: { onAuthenticated: () => void }) {
   }
 
   return (
-    <main className="gate min-h-screen bg-[var(--ink)] text-white">
+    <main className="gate min-h-screen bg-[var(--paper)] text-[var(--ink)]">
       <Skyline />
       <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl items-center px-5 py-12 sm:px-8">
         <div className="grid w-full gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
           <div>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-sm text-white/72">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--paper-soft)] px-4 py-2 text-sm text-[var(--muted)]">
               <Lock size={16} />
               私密访问
             </div>
             <h1 className="max-w-3xl text-5xl font-semibold leading-tight sm:text-7xl">
               上海班9.0
-              <span className="block text-[var(--gold)]">同学录</span>
+              <span className="title-line text-[var(--gold)]">
+                同学录
+                <Sparkles size={24} />
+              </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-9 text-white/68">
-              以海派城市天际线为封面，收藏每一位同学的经历、志趣与未来想象。
+            <p className="mt-6 max-w-2xl text-lg leading-9 text-[var(--muted)]">
+              这里珍藏着上海班9.0每一位同学的故事与心意，愿翻开时都能想起并肩学习的温暖时光。
             </p>
           </div>
 
           <form className="access-panel" onSubmit={submit}>
-            <KeyRound className="text-[var(--gold)]" size={28} />
-            <h2 className="mt-5 text-2xl font-semibold">输入访问密码</h2>
-            <label className="mt-6 block text-sm text-white/66" htmlFor="code">
-              同学录访问码
+            <div className="access-heading">
+              <KeyRound className="text-[var(--gold)]" size={28} />
+              <h2>输入访问密码</h2>
+            </div>
+            <label className="sr-only" htmlFor="code">
+              访问密码
             </label>
             <input
               autoFocus
-              className="mt-2 w-full rounded-md border border-white/14 bg-white/10 px-4 py-3 text-lg text-white outline-none transition focus:border-[var(--gold)]"
+              className="mt-6 w-full rounded-md border border-[var(--line)] bg-white/65 px-4 py-3 text-lg text-[var(--ink)] outline-none transition focus:border-[var(--gold)]"
               id="code"
               inputMode="numeric"
               onChange={(event) => {
@@ -164,7 +170,7 @@ function AccessGate({ onAuthenticated }: { onAuthenticated: () => void }) {
               type="password"
               value={code}
             />
-            {error && <p className="mt-3 text-sm text-red-200">{error}</p>}
+            {error && <p className="mt-3 text-sm text-[var(--red)]">{error}</p>}
             <button className="primary-button mt-6 w-full" type="submit">
               进入同学录
             </button>
@@ -195,7 +201,7 @@ function Hero({
             <h1 className="max-w-4xl text-5xl font-semibold leading-tight sm:text-7xl">
               上海班9.0同学录
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-white/68 sm:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--muted)] sm:text-lg">
               在东方明珠与外滩灯影之间，记录每位同学的行业坐标、兴趣偏好与未来方向。
             </p>
           </div>
@@ -407,13 +413,7 @@ function InfoPill({
 function Skyline() {
   return (
     <div aria-hidden="true" className="skyline">
-      <Sparkles className="sparkle" size={22} />
-      <div className="tower pearl" />
-      <div className="building small" />
-      <div className="building medium" />
-      <div className="tower needle" />
-      <div className="building wide" />
-      <div className="building tall" />
+      <img alt="" src={shanghaiSkyline} />
       <div className="river" />
     </div>
   );
