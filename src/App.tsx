@@ -1,12 +1,15 @@
 import {
   ArrowLeft,
+  BadgeCheck,
+  BriefcaseBusiness,
   Building2,
-  Compass,
+  Feather,
   KeyRound,
   Lock,
+  MapPin,
+  MessageCircle,
   Search,
   Sparkles,
-  Star,
   UserRound,
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
@@ -230,26 +233,41 @@ function ClassmateCard({
 }) {
   return (
     <article className="classmate-card">
-      <img alt={`${classmate.name}头像`} src={classmate.avatar} />
-      <div className="flex flex-1 flex-col">
-        <div className="flex items-start justify-between gap-4">
+      <div className="classmate-photo">
+        <img alt={`${classmate.name}头像`} src={classmate.avatar} />
+      </div>
+      <div className="classmate-card-body">
+        <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-sm text-[var(--gold)]">{classmate.title}</p>
-            <h3 className="mt-1 text-2xl font-semibold">{classmate.name}</h3>
+            <h3 className="text-2xl font-semibold">{classmate.name}</h3>
+            <p className="nickname-line">
+              <Feather size={16} />
+              <span>{classmate.title}</span>
+            </p>
           </div>
-          <span className="rounded-full bg-white/10 px-3 py-1 text-sm text-white/72">
+          <span className="direction-badge">
+            <BadgeCheck size={16} />
             {classmate.direction3c}
           </span>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-white/72">
-          <InfoPill icon={<Compass size={16} />} label={classmate.industry} />
-          <InfoPill icon={<Star size={16} />} label={classmate.constellation} />
+        <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
+          <InfoPill
+            icon={<MapPin size={16} />}
+            label={classmate.hometown}
+            prefix="籍贯"
+          />
+          <InfoPill
+            icon={<BriefcaseBusiness size={16} />}
+            label={classmate.industry}
+            prefix="行业"
+          />
         </div>
 
-        <p className="mt-5 line-clamp-3 text-sm leading-7 text-white/64">
-          {classmate.message}
-        </p>
+        <div className="card-message mt-5">
+          <MessageCircle size={17} />
+          <p>{classmate.message}</p>
+        </div>
 
         <button className="secondary-button mt-6" onClick={onOpen} type="button">
           查看同学资料
@@ -398,13 +416,16 @@ function DetailRow({
 function InfoPill({
   icon,
   label,
+  prefix,
 }: {
   icon: ReactNode;
   label: string;
+  prefix?: string;
 }) {
   return (
     <span className="info-pill">
       {icon}
+      {prefix && <strong>{prefix}：</strong>}
       {label}
     </span>
   );
