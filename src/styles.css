@@ -1,0 +1,453 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #07131f;
+  --ink-2: #0c2233;
+  --paper: #f7f0df;
+  --gold: #d9ad61;
+  --mist: #d7e7e4;
+  --red: #9d3b35;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--ink);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.gate,
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.gate::before,
+.hero::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgb(217 173 97 / 18%), transparent 32%),
+    linear-gradient(135deg, rgb(12 34 51 / 92%), rgb(7 19 31 / 100%) 58%);
+  content: "";
+  inset: 0;
+  position: absolute;
+  z-index: -2;
+}
+
+.hero {
+  min-height: 430px;
+}
+
+.access-panel {
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 8%);
+  box-shadow: 0 24px 90px rgb(0 0 0 / 24%);
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  backdrop-filter: blur(22px);
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button {
+  align-items: center;
+  border-radius: 6px;
+  display: inline-flex;
+  font-weight: 700;
+  gap: 0.5rem;
+  justify-content: center;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border 160ms ease;
+}
+
+.primary-button {
+  background: var(--gold);
+  color: #1d1608;
+  padding: 0.85rem 1.2rem;
+}
+
+.secondary-button {
+  border: 1px solid rgb(217 173 97 / 42%);
+  color: var(--gold);
+  padding: 0.75rem 1rem;
+}
+
+.ghost-button {
+  border: 1px solid rgb(255 255 255 / 14%);
+  background: rgb(255 255 255 / 8%);
+  color: white;
+  padding: 0.7rem 1rem;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.ghost-button:hover {
+  transform: translateY(-1px);
+}
+
+.search-box {
+  align-items: center;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 8px;
+  color: rgb(255 255 255 / 62%);
+  display: flex;
+  gap: 0.75rem;
+  max-width: 420px;
+  padding: 0.9rem 1rem;
+  width: 100%;
+}
+
+.search-box input {
+  background: transparent;
+  border: 0;
+  color: white;
+  outline: 0;
+  width: 100%;
+}
+
+.search-box input::placeholder {
+  color: rgb(255 255 255 / 44%);
+}
+
+.classmate-card {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 6%)),
+    var(--ink-2);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 8px;
+  display: flex;
+  gap: 1.1rem;
+  min-height: 280px;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.classmate-card img {
+  aspect-ratio: 3 / 4;
+  border-radius: 6px;
+  height: 100%;
+  max-height: 252px;
+  object-fit: cover;
+  width: 138px;
+}
+
+.info-pill {
+  align-items: center;
+  background: rgb(255 255 255 / 8%);
+  border-radius: 6px;
+  display: inline-flex;
+  gap: 0.45rem;
+  min-height: 38px;
+  padding: 0.55rem 0.65rem;
+}
+
+.profile-shell {
+  background:
+    linear-gradient(rgb(7 19 31 / 90%), rgb(7 19 31 / 96%)),
+    radial-gradient(circle at 18% 10%, rgb(217 173 97 / 20%), transparent 28%);
+  inset: 0;
+  overflow-y: auto;
+  padding: 1.25rem;
+  position: fixed;
+  z-index: 50;
+}
+
+.template-switcher {
+  background: rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 8px;
+  display: inline-flex;
+  padding: 0.25rem;
+}
+
+.template-switcher button {
+  border-radius: 6px;
+  color: rgb(255 255 255 / 66%);
+  padding: 0.55rem 1rem;
+}
+
+.template-switcher button.active {
+  background: var(--gold);
+  color: #1d1608;
+  font-weight: 700;
+}
+
+.classic-profile {
+  background: rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-radius: 8px;
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.classic-profile aside {
+  background: rgb(255 255 255 / 7%);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.classic-profile aside img {
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.classic-profile section {
+  display: grid;
+  gap: 1rem;
+}
+
+.profile-section {
+  border-bottom: 1px solid rgb(255 255 255 / 11%);
+  padding: 1.25rem;
+}
+
+.profile-section:last-child {
+  border-bottom: 0;
+}
+
+.profile-section h3 {
+  color: var(--gold);
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
+  margin: 0 0 0.8rem;
+}
+
+.profile-section p,
+.message-text {
+  color: rgb(255 255 255 / 72%);
+  line-height: 2;
+  margin: 0;
+}
+
+.message-text {
+  font-size: 1.05rem;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tag-list span {
+  background: rgb(217 173 97 / 14%);
+  border: 1px solid rgb(217 173 97 / 28%);
+  border-radius: 999px;
+  color: var(--gold);
+  padding: 0.45rem 0.8rem;
+}
+
+.detail-row {
+  align-items: center;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+
+.detail-row span {
+  color: rgb(255 255 255 / 52%);
+}
+
+.detail-row strong {
+  color: white;
+  text-align: right;
+}
+
+.detail-row.light {
+  border-color: rgb(7 19 31 / 12%);
+}
+
+.detail-row.light span {
+  color: rgb(15 23 42 / 52%);
+}
+
+.detail-row.light strong {
+  color: var(--ink);
+}
+
+.postcard-profile {
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 30px 100px rgb(0 0 0 / 28%);
+  display: grid;
+  overflow: hidden;
+}
+
+.postcard-image {
+  min-height: 260px;
+}
+
+.postcard-image img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.postcard-content {
+  color: var(--ink);
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.skyline {
+  bottom: 0;
+  height: 260px;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  z-index: -1;
+}
+
+.skyline::before {
+  background: linear-gradient(transparent, rgb(7 19 31 / 88%));
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.building,
+.tower {
+  background: linear-gradient(180deg, rgb(217 173 97 / 50%), rgb(215 231 228 / 10%));
+  border: 1px solid rgb(217 173 97 / 25%);
+  bottom: 42px;
+  position: absolute;
+}
+
+.building.small {
+  height: 76px;
+  left: 8%;
+  width: 72px;
+}
+
+.building.medium {
+  height: 120px;
+  left: 19%;
+  width: 96px;
+}
+
+.building.wide {
+  height: 92px;
+  right: 17%;
+  width: 154px;
+}
+
+.building.tall {
+  height: 150px;
+  right: 8%;
+  width: 86px;
+}
+
+.tower.pearl {
+  border-radius: 999px 999px 8px 8px;
+  height: 190px;
+  left: 43%;
+  width: 44px;
+}
+
+.tower.pearl::before,
+.tower.pearl::after {
+  background: rgb(217 173 97 / 70%);
+  border-radius: 999px;
+  content: "";
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.tower.pearl::before {
+  height: 72px;
+  top: 28px;
+  width: 72px;
+}
+
+.tower.pearl::after {
+  height: 34px;
+  top: -22px;
+  width: 34px;
+}
+
+.tower.needle {
+  height: 170px;
+  right: 32%;
+  width: 34px;
+}
+
+.tower.needle::before {
+  border-left: 17px solid transparent;
+  border-right: 17px solid transparent;
+  border-bottom: 78px solid rgb(217 173 97 / 48%);
+  content: "";
+  left: 0;
+  position: absolute;
+  top: -78px;
+}
+
+.river {
+  background: linear-gradient(90deg, transparent, rgb(215 231 228 / 18%), transparent);
+  bottom: 0;
+  height: 60px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.sparkle {
+  color: var(--gold);
+  left: 57%;
+  position: absolute;
+  top: 34px;
+}
+
+@media (min-width: 900px) {
+  .classic-profile {
+    grid-template-columns: 340px 1fr;
+  }
+
+  .postcard-profile {
+    grid-template-columns: 0.78fr 1.22fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    min-height: 520px;
+  }
+
+  .classmate-card {
+    flex-direction: column;
+  }
+
+  .classmate-card img {
+    aspect-ratio: 16 / 10;
+    max-height: none;
+    width: 100%;
+  }
+
+  .skyline {
+    opacity: 0.68;
+    transform: scale(0.86);
+    transform-origin: bottom center;
+  }
+}
