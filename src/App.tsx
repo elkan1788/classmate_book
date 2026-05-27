@@ -20,6 +20,25 @@ import type { Classmate, ProfileTemplate } from "./types";
 
 const ACCESS_CODE = "202606066";
 const AUTH_KEY = "c9-classmate-book-authenticated";
+const avatarAssets = import.meta.glob("./assets/avatar/*", {
+  eager: true,
+  import: "default",
+  query: "?url",
+}) as Record<string, string>;
+
+function resolveAvatarSrc(avatar: string) {
+  if (/^https?:\/\//.test(avatar) || avatar.startsWith("/")) {
+    return avatar;
+  }
+
+  const fileName = avatar.split("/").pop();
+
+  if (!fileName) {
+    return avatar;
+  }
+
+  return avatarAssets[`./assets/avatar/${fileName}`] ?? avatar;
+}
 
 function App() {
   const [isAuthed, setIsAuthed] = useState(
@@ -233,9 +252,11 @@ function ClassmateCard({
 }) {
   return (
     <article className="classmate-card">
-      <div className="classmate-photo">
-        <img alt={`${classmate.name}头像`} src={classmate.avatar} />
-      </div>
+      <AvatarImage
+        alt={`${classmate.name}头像`}
+        className="classmate-photo"
+        src={classmate.avatar}
+      />
       <div className="classmate-card-body">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -328,7 +349,11 @@ function ClassicProfile({ classmate }: { classmate: Classmate }) {
   return (
     <article className="classic-profile">
       <aside>
-        <img alt={`${classmate.name}头像`} src={classmate.avatar} />
+        <AvatarImage
+          alt={`${classmate.name}头像`}
+          className="classic-avatar"
+          src={classmate.avatar}
+        />
         <p className="mt-5 text-sm uppercase tracking-[0.28em] text-[var(--gold)]">
           {classmate.title}
         </p>
@@ -367,9 +392,11 @@ function ClassicProfile({ classmate }: { classmate: Classmate }) {
 function PostcardProfile({ classmate }: { classmate: Classmate }) {
   return (
     <article className="postcard-profile">
-      <div className="postcard-image">
-        <img alt={`${classmate.name}头像`} src={classmate.avatar} />
-      </div>
+      <AvatarImage
+        alt={`${classmate.name}头像`}
+        className="postcard-image"
+        src={classmate.avatar}
+      />
       <div className="postcard-content">
         <p className="text-sm uppercase tracking-[0.28em] text-[var(--gold)]">
           City Postcard
@@ -393,6 +420,25 @@ function PostcardProfile({ classmate }: { classmate: Classmate }) {
         </p>
       </div>
     </article>
+  );
+}
+
+function AvatarImage({
+  alt,
+  className,
+  src,
+}: {
+  alt: string;
+  className: string;
+  src: string;
+}) {
+  const resolvedSrc = resolveAvatarSrc(src);
+
+  return (
+    <div className={`avatar-frame ${className}`}>
+      <img aria-hidden="true" className="avatar-backdrop" src={resolvedSrc} />
+      <img alt={alt} className="avatar-main" src={resolvedSrc} />
+    </div>
   );
 }
 
