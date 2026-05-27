@@ -3,20 +3,24 @@ import {
   BadgeCheck,
   BriefcaseBusiness,
   Building2,
+  CakeSlice,
   Feather,
   KeyRound,
   Lock,
   MapPin,
   MessageCircle,
+  Orbit,
   Search,
   Sparkles,
+  Tag,
   UserRound,
+  type LucideIcon,
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
 import { useMemo, useState } from "react";
 import shanghaiSkyline from "./assets/shanghai-skyline.jpg";
 import { classmates } from "./data/classmates";
-import type { Classmate, ProfileTemplate } from "./types";
+import type { Classmate } from "./types";
 
 const ACCESS_CODE = "202606066";
 const AUTH_KEY = "c9-classmate-book-authenticated";
@@ -48,7 +52,6 @@ function App() {
     null,
   );
   const [query, setQuery] = useState("");
-  const [template, setTemplate] = useState<ProfileTemplate>("classic");
 
   const visibleClassmates = useMemo(() => {
     const keyword = query.trim().toLowerCase();
@@ -78,7 +81,6 @@ function App() {
 
   function openProfile(classmate: Classmate) {
     setSelectedClassmate(classmate);
-    setTemplate(classmate.template);
   }
 
   if (!isAuthed) {
@@ -124,8 +126,6 @@ function App() {
       {selectedClassmate && (
         <ProfileOverlay
           classmate={selectedClassmate}
-          template={template}
-          onTemplateChange={setTemplate}
           onClose={() => setSelectedClassmate(null)}
         />
       )}
@@ -303,13 +303,9 @@ function ClassmateCard({
 
 function ProfileOverlay({
   classmate,
-  template,
-  onTemplateChange,
   onClose,
 }: {
   classmate: Classmate;
-  template: ProfileTemplate;
-  onTemplateChange: (template: ProfileTemplate) => void;
   onClose: () => void;
 }) {
   return (
@@ -320,29 +316,9 @@ function ProfileOverlay({
             <ArrowLeft size={18} />
             返回首页
           </button>
-          <div className="template-switcher" aria-label="详情模板切换">
-            <button
-              className={template === "classic" ? "active" : ""}
-              onClick={() => onTemplateChange("classic")}
-              type="button"
-            >
-              档案馆
-            </button>
-            <button
-              className={template === "postcard" ? "active" : ""}
-              onClick={() => onTemplateChange("postcard")}
-              type="button"
-            >
-              明信片
-            </button>
-          </div>
         </div>
 
-        {template === "classic" ? (
-          <ClassicProfile classmate={classmate} />
-        ) : (
-          <PostcardProfile classmate={classmate} />
-        )}
+        <ClassicProfile classmate={classmate} />
       </div>
     </div>
   );
@@ -362,21 +338,35 @@ function ClassicProfile({ classmate }: { classmate: Classmate }) {
         </p>
         <h2 className="mt-2 text-4xl font-semibold">{classmate.name}</h2>
         <div className="mt-6 grid gap-3">
-          <DetailRow label="行业" value={classmate.industry} />
-          <DetailRow label="籍贯" value={classmate.hometown} />
-          <DetailRow label="属相" value={classmate.zodiac} />
-          <DetailRow label="星座" value={classmate.constellation} />
-          <DetailRow label="3C方向" value={classmate.direction3c} />
+          <DetailRow
+            icon={BriefcaseBusiness}
+            label="行业"
+            value={classmate.industry}
+          />
+          <DetailRow icon={MapPin} label="籍贯" value={classmate.hometown} />
+          <DetailRow icon={Orbit} label="生肖" value={classmate.zodiac} />
+          <DetailRow icon={CakeSlice} label="星座" value={classmate.constellation} />
+          <DetailRow
+            icon={BadgeCheck}
+            label="3C方向"
+            value={classmate.direction3c}
+          />
         </div>
       </aside>
 
       <section>
         <div className="profile-section">
-          <h3>人物典故</h3>
+          <h3>
+            <Tag size={16} />
+            <span>花名出处</span>
+          </h3>
           <p>{classmate.story}</p>
         </div>
         <div className="profile-section">
-          <h3>兴趣爱好</h3>
+          <h3>
+            <Sparkles size={16} />
+            <span>兴趣爱好</span>
+          </h3>
           <div className="tag-list">
             {classmate.hobbies.map((hobby) => (
               <span key={hobby}>{hobby}</span>
@@ -384,7 +374,10 @@ function ClassicProfile({ classmate }: { classmate: Classmate }) {
           </div>
         </div>
         <div className="profile-section">
-          <h3>想说的话</h3>
+          <h3>
+            <MessageCircle size={16} />
+            <span>想说的话</span>
+          </h3>
           <p className="message-text">{classmate.message}</p>
         </div>
       </section>
@@ -411,12 +404,37 @@ function PostcardProfile({ classmate }: { classmate: Classmate }) {
           {classmate.story}
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          <DetailRow label="行业" value={classmate.industry} light />
-          <DetailRow label="籍贯" value={classmate.hometown} light />
-          <DetailRow label="属相" value={classmate.zodiac} light />
-          <DetailRow label="星座" value={classmate.constellation} light />
-          <DetailRow label="兴趣" value={classmate.hobbies.join(" / ")} light />
-          <DetailRow label="3C方向" value={classmate.direction3c} light />
+          <DetailRow
+            icon={BriefcaseBusiness}
+            label="行业"
+            value={classmate.industry}
+            light
+          />
+          <DetailRow
+            icon={MapPin}
+            label="籍贯"
+            value={classmate.hometown}
+            light
+          />
+          <DetailRow icon={Orbit} label="生肖" value={classmate.zodiac} light />
+          <DetailRow
+            icon={CakeSlice}
+            label="星座"
+            value={classmate.constellation}
+            light
+          />
+          <DetailRow
+            icon={Tag}
+            label="兴趣"
+            value={classmate.hobbies.join(" / ")}
+            light
+          />
+          <DetailRow
+            icon={BadgeCheck}
+            label="3C方向"
+            value={classmate.direction3c}
+            light
+          />
         </div>
         <p className="mt-7 text-base leading-8 text-slate-700">
           {classmate.message}
@@ -439,27 +457,72 @@ function AvatarImage({
 
   return (
     <div className={`avatar-frame ${className}`}>
-      <img aria-hidden="true" className="avatar-backdrop" src={resolvedSrc} />
       <img alt={alt} className="avatar-main" src={resolvedSrc} />
     </div>
   );
 }
 
 function DetailRow({
+  icon: Icon,
   label,
   value,
   light = false,
 }: {
+  icon: LucideIcon;
   label: string;
   value: string;
   light?: boolean;
 }) {
+  const trailingEmoji = getTrailingEmoji(label, value);
+
   return (
     <div className={light ? "detail-row light" : "detail-row"}>
-      <span>{label}</span>
-      <strong>{value}</strong>
+      <span className="detail-row-label">
+        <Icon size={15} />
+        <span>{label}</span>
+      </span>
+      <strong className="detail-row-value">
+        <span>{value}</span>
+        {trailingEmoji}
+      </strong>
     </div>
   );
+}
+
+function getTrailingEmoji(label: string, value: string) {
+  const normalized = value.replace(/\s+/g, "");
+
+  if (label === "生肖") {
+    if (normalized.includes("鼠")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐭</span></span>;
+    if (normalized.includes("牛")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐮</span></span>;
+    if (normalized.includes("虎")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐯</span></span>;
+    if (normalized.includes("兔")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐰</span></span>;
+    if (normalized.includes("龙")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐲</span></span>;
+    if (normalized.includes("蛇")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐍</span></span>;
+    if (normalized.includes("马")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐴</span></span>;
+    if (normalized.includes("羊")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐑</span></span>;
+    if (normalized.includes("猴")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐒</span></span>;
+    if (normalized.includes("鸡")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐔</span></span>;
+    if (normalized.includes("狗")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐶</span></span>;
+    if (normalized.includes("猪")) return <span className="zodiac-emoji" aria-hidden="true"><span>🐷</span></span>;
+  }
+
+  if (label === "星座") {
+    if (normalized.includes("白羊")) return <span className="zodiac-emoji" aria-hidden="true"><span>♈</span></span>;
+    if (normalized.includes("金牛")) return <span className="zodiac-emoji" aria-hidden="true"><span>♉</span></span>;
+    if (normalized.includes("双子")) return <span className="zodiac-emoji" aria-hidden="true"><span>♊</span></span>;
+    if (normalized.includes("巨蟹")) return <span className="zodiac-emoji" aria-hidden="true"><span>♋</span></span>;
+    if (normalized.includes("狮子")) return <span className="zodiac-emoji" aria-hidden="true"><span>♌</span></span>;
+    if (normalized.includes("处女")) return <span className="zodiac-emoji" aria-hidden="true"><span>♍</span></span>;
+    if (normalized.includes("天秤")) return <span className="zodiac-emoji" aria-hidden="true"><span>♎</span></span>;
+    if (normalized.includes("天蝎")) return <span className="zodiac-emoji" aria-hidden="true"><span>♏</span></span>;
+    if (normalized.includes("射手")) return <span className="zodiac-emoji" aria-hidden="true"><span>♐</span></span>;
+    if (normalized.includes("摩羯")) return <span className="zodiac-emoji" aria-hidden="true"><span>♑</span></span>;
+    if (normalized.includes("水瓶")) return <span className="zodiac-emoji" aria-hidden="true"><span>♒</span></span>;
+    if (normalized.includes("双鱼")) return <span className="zodiac-emoji" aria-hidden="true"><span>♓</span></span>;
+  }
+
+  return null;
 }
 
 function InfoPill({

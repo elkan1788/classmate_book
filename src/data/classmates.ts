@@ -160,7 +160,7 @@ export const classmates: Classmate[] = [
     "constellation": "双鱼座",
     "hobbies": [
       "听广播",
-      "海贼王踏实粉丝",
+      "海贼王粉丝",
       "看书",
       "编程"
     ],

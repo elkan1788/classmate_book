@@ -267,7 +267,7 @@ button {
 }
 
 .info-pill {
-  align-items: flex-start;
+  align-items: center;
   background: rgb(255 250 240 / 58%);
   border: 1px solid rgb(167 122 54 / 18%);
   border-radius: 6px;
@@ -281,6 +281,7 @@ button {
 
 .info-pill svg {
   color: var(--gold);
+  display: block;
   flex: 0 0 auto;
 }
 
@@ -338,26 +339,6 @@ button {
   z-index: 50;
 }
 
-.template-switcher {
-  background: rgb(255 250 240 / 78%);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  display: inline-flex;
-  padding: 0.25rem;
-}
-
-.template-switcher button {
-  border-radius: 6px;
-  color: var(--muted);
-  padding: 0.55rem 1rem;
-}
-
-.template-switcher button.active {
-  background: var(--gold);
-  color: #fffaf0;
-  font-weight: 700;
-}
-
 .classic-profile {
   background: rgb(255 250 240 / 78%);
   border: 1px solid var(--line);
@@ -397,10 +378,14 @@ button {
 }
 
 .profile-section h3 {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.45rem;
   color: var(--gold);
   font-size: 0.95rem;
   letter-spacing: 0.2em;
   margin: 0 0 0.8rem;
+  text-transform: uppercase;
 }
 
 .profile-section p,
@@ -441,9 +426,38 @@ button {
   color: var(--muted);
 }
 
+.detail-row-label {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.45rem;
+}
+
+.detail-row-label svg,
+.profile-section h3 svg {
+  color: var(--gold);
+  flex: 0 0 auto;
+}
+
 .detail-row strong {
   color: var(--ink);
   text-align: right;
+}
+
+.zodiac-emoji {
+  align-items: center;
+  background: rgb(167 122 54 / 10%);
+  border: 1px solid rgb(167 122 54 / 18%);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.92rem;
+  gap: 0.15rem;
+  margin-left: 0.45rem;
+  padding: 0.08rem 0.42rem;
+}
+
+.zodiac-emoji span {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .detail-row.light {
