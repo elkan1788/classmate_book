@@ -22,7 +22,7 @@ import shanghaiSkyline from "./assets/shanghai-skyline.jpg";
 import { classmates } from "./data/classmates";
 import type { Classmate } from "./types";
 
-const ACCESS_CODE = "202606066";
+const ACCESS_CODE = import.meta.env.VITE_ACCESS_CODE?.trim() ?? "";
 const AUTH_KEY = "c9-classmate-book-authenticated";
 const avatarAssets = import.meta.glob("./assets/avatar/*", {
   eager: true,
@@ -136,9 +136,15 @@ function App() {
 function AccessGate({ onAuthenticated }: { onAuthenticated: () => void }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const isAccessCodeConfigured = ACCESS_CODE.length > 0;
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!isAccessCodeConfigured) {
+      setError("访问密码未配置，请检查 VITE_ACCESS_CODE 环境变量。");
+      return;
+    }
 
     if (code.trim() === ACCESS_CODE) {
       onAuthenticated();
@@ -195,6 +201,12 @@ function AccessGate({ onAuthenticated }: { onAuthenticated: () => void }) {
             <button className="primary-button mt-6 w-full" type="submit">
               进入同学录
             </button>
+            {!isAccessCodeConfigured && (
+              <p className="mt-4 text-xs leading-5 text-[var(--muted)]">
+                本地调试请在项目根目录创建 .env.local，并配置
+                VITE_ACCESS_CODE。
+              </p>
+            )}
           </form>
         </div>
       </section>
@@ -457,7 +469,15 @@ function AvatarImage({
 
   return (
     <div className={`avatar-frame ${className}`}>
-      <img alt={alt} className="avatar-main" src={resolvedSrc} />
+      <img
+        alt={alt}
+        className="avatar-main"
+        decoding="async"
+        height={420}
+        loading="lazy"
+        src={resolvedSrc}
+        width={420}
+      />
     </div>
   );
 }
@@ -548,7 +568,7 @@ function InfoPill({
 function Skyline() {
   return (
     <div aria-hidden="true" className="skyline">
-      <img alt="" src={shanghaiSkyline} />
+      <img alt="" decoding="async" fetchPriority="low" src={shanghaiSkyline} />
       <div className="river" />
     </div>
   );
