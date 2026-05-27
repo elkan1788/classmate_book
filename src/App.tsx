@@ -465,16 +465,21 @@ function AvatarImage({
   className: string;
   src: string;
 }) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const resolvedSrc = resolveAvatarSrc(src);
 
   return (
-    <div className={`avatar-frame ${className}`}>
+    <div
+      className={`avatar-frame ${className}${isLoaded ? " is-loaded" : ""}`}
+    >
+      <span className="avatar-loader" aria-hidden="true" />
       <img
         alt={alt}
         className="avatar-main"
         decoding="async"
         height={420}
         loading="lazy"
+        onLoad={() => setIsLoaded(true)}
         src={resolvedSrc}
         width={420}
       />

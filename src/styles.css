@@ -210,14 +210,65 @@ button {
   position: relative;
 }
 
-.classmate-photo img {
+.avatar-loader {
+  background:
+    linear-gradient(
+      110deg,
+      rgb(255 250 240 / 18%) 8%,
+      rgb(255 255 255 / 62%) 18%,
+      rgb(255 250 240 / 18%) 33%
+    ),
+    linear-gradient(135deg, rgb(167 122 54 / 18%), rgb(70 57 37 / 8%));
+  background-size: 220% 100%, 100% 100%;
+  inset: 0;
+  position: absolute;
+  animation: avatar-loading 1.25s ease-in-out infinite;
+}
+
+.avatar-frame.is-loaded .avatar-loader {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+}
+
+.avatar-main {
   display: block;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  opacity: 0;
   transform: scale(1.01);
+  transition:
+    opacity 420ms ease,
+    transform 600ms ease;
   width: 100%;
 }
+
+.avatar-frame.is-loaded .avatar-main {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes avatar-loading {
+  from {
+    background-position: 180% 0, 0 0;
+  }
+
+  to {
+    background-position: -40% 0, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-loader {
+    animation: none;
+  }
+
+  .avatar-main {
+    transition: none;
+  }
+}
+
 
 .classmate-card-body {
   display: flex;
