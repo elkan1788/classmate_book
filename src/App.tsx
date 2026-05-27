@@ -24,6 +24,7 @@ import type { Classmate } from "./types";
 
 const ACCESS_CODE = import.meta.env.VITE_ACCESS_CODE?.trim() ?? "";
 const AUTH_KEY = "c9-classmate-book-authenticated";
+const PROFILE_EXIT_MS = 500;
 const avatarAssets = import.meta.glob("./assets/avatar/*", {
   eager: true,
   import: "default",
@@ -51,6 +52,7 @@ function App() {
   const [selectedClassmate, setSelectedClassmate] = useState<Classmate | null>(
     null,
   );
+  const [isProfileClosing, setIsProfileClosing] = useState(false);
   const [query, setQuery] = useState("");
 
   const visibleClassmates = useMemo(() => {
@@ -80,7 +82,16 @@ function App() {
   }
 
   function openProfile(classmate: Classmate) {
+    setIsProfileClosing(false);
     setSelectedClassmate(classmate);
+  }
+
+  function closeProfile() {
+    setIsProfileClosing(true);
+    window.setTimeout(() => {
+      setSelectedClassmate(null);
+      setIsProfileClosing(false);
+    }, PROFILE_EXIT_MS);
   }
 
   if (!isAuthed) {
@@ -126,7 +137,8 @@ function App() {
       {selectedClassmate && (
         <ProfileOverlay
           classmate={selectedClassmate}
-          onClose={() => setSelectedClassmate(null)}
+          isClosing={isProfileClosing}
+          onClose={closeProfile}
         />
       )}
     </main>
@@ -315,21 +327,24 @@ function ClassmateCard({
 
 function ProfileOverlay({
   classmate,
+  isClosing,
   onClose,
 }: {
   classmate: Classmate;
+  isClosing: boolean;
   onClose: () => void;
 }) {
   return (
-    <div className="profile-shell">
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-          <button className="ghost-button" onClick={onClose} type="button">
-            <ArrowLeft size={18} />
-            返回首页
-          </button>
-        </div>
-
+    <div className={`profile-shell${isClosing ? " is-closing" : ""}`}>
+      <button
+        className="ghost-button profile-back-button"
+        onClick={onClose}
+        type="button"
+      >
+        <ArrowLeft size={18} />
+        返回首页
+      </button>
+      <div className="profile-content mx-auto w-full max-w-6xl">
         <ClassicProfile classmate={classmate} />
       </div>
     </div>

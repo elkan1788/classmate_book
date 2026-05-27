@@ -210,6 +210,11 @@ button {
   position: relative;
 }
 
+.avatar-frame {
+  overflow: hidden;
+  position: relative;
+}
+
 .avatar-loader {
   background:
     linear-gradient(
@@ -221,8 +226,10 @@ button {
     linear-gradient(135deg, rgb(167 122 54 / 18%), rgb(70 57 37 / 8%));
   background-size: 220% 100%, 100% 100%;
   inset: 0;
+  pointer-events: none;
   position: absolute;
   animation: avatar-loading 1.25s ease-in-out infinite;
+  z-index: 0;
 }
 
 .avatar-frame.is-loaded .avatar-loader {
@@ -237,11 +244,13 @@ button {
   object-fit: cover;
   object-position: center;
   opacity: 0;
+  position: relative;
   transform: scale(1.01);
   transition:
     opacity 420ms ease,
     transform 600ms ease;
   width: 100%;
+  z-index: 1;
 }
 
 .avatar-frame.is-loaded .avatar-main {
@@ -266,6 +275,15 @@ button {
 
   .avatar-main {
     transition: none;
+  }
+
+  .profile-shell,
+  .profile-shell.is-closing,
+  .profile-content,
+  .profile-shell.is-closing .profile-content,
+  .profile-back-button,
+  .profile-shell.is-closing .profile-back-button {
+    animation: none;
   }
 }
 
@@ -383,11 +401,35 @@ button {
   background:
     linear-gradient(rgb(247 240 227 / 92%), rgb(247 240 227 / 96%)),
     radial-gradient(circle at 18% 10%, rgb(167 122 54 / 15%), transparent 28%);
+  animation: profile-shell-enter 260ms ease both;
   inset: 0;
   overflow-y: auto;
   padding: 1.25rem;
   position: fixed;
   z-index: 50;
+}
+
+.profile-shell.is-closing {
+  animation: profile-shell-exit 240ms ease both;
+}
+
+.profile-content {
+  animation: profile-content-enter 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  padding-top: 3.75rem;
+}
+
+.profile-shell.is-closing .profile-content {
+  animation: profile-content-exit 240ms ease both;
+}
+
+.profile-back-button {
+  animation: profile-back-enter 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  position: relative;
+  z-index: 60;
+}
+
+.profile-shell.is-closing .profile-back-button {
+  animation: profile-back-exit 200ms ease both;
 }
 
 .classic-profile {
@@ -398,6 +440,74 @@ button {
   display: grid;
   gap: 1.5rem;
   padding: 1rem;
+}
+
+@keyframes profile-shell-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes profile-shell-exit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes profile-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes profile-content-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+}
+
+@keyframes profile-back-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes profile-back-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
 }
 
 .classic-profile aside {
@@ -641,6 +751,23 @@ button {
 }
 
 @media (max-width: 700px) {
+  .profile-shell {
+    padding: 5rem 1rem 1rem;
+  }
+
+  .profile-content {
+    padding-top: 0;
+  }
+
+  .profile-back-button {
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 32px rgb(81 58 27 / 14%);
+    left: 1rem;
+    position: fixed;
+    top: max(1rem, env(safe-area-inset-top));
+    z-index: 70;
+  }
+
   .gate {
     display: block;
   }
