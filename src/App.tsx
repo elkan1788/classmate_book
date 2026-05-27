@@ -60,10 +60,9 @@ function App() {
     return classmates.filter((classmate) => {
       const haystack = [
         classmate.name,
+        classmate.title,
         classmate.industry,
         classmate.direction3c,
-        classmate.hometown,
-        ...classmate.hobbies,
       ]
         .join(" ")
         .toLowerCase();
@@ -101,7 +100,7 @@ function App() {
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-7 text-[var(--muted)]">
-            搜索姓名、行业、3C方向或兴趣爱好，快速找到想了解的同学。
+            搜索花名、行业、3C方向或兴趣爱好，快速找到想了解的同学。
           </p>
         </div>
 
@@ -221,7 +220,11 @@ function Hero({
               Shanghai Class 9.0
             </div>
             <h1 className="max-w-4xl text-5xl font-semibold leading-tight sm:text-7xl">
-              上海班9.0同学录
+              上海班9.0
+              <span className="title-line text-[var(--gold)]">
+                同学录
+                <Sparkles size={24} />
+              </span>
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--muted)] sm:text-lg">
               在东方明珠与外滩灯影之间，记录每位同学的行业坐标、兴趣偏好与未来方向。
@@ -233,7 +236,7 @@ function Hero({
             <input
               id="search"
               onChange={(event) => onQueryChange(event.target.value)}
-              placeholder="搜索姓名 / 行业 / 3C方向"
+              placeholder="搜索花名 / 行业 / 3C方向"
               value={query}
             />
           </label>
@@ -272,7 +275,7 @@ function ClassmateCard({
           </span>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
+        <div className="mt-5 grid grid-cols-1 gap-2.5 text-sm">
           <InfoPill
             icon={<MapPin size={16} />}
             label={classmate.hometown}
@@ -471,8 +474,10 @@ function InfoPill({
   return (
     <span className="info-pill">
       {icon}
-      {prefix && <strong>{prefix}：</strong>}
-      {label}
+      <span className="info-pill-text">
+        {prefix && <strong>{prefix}：</strong>}
+        <span>{label}</span>
+      </span>
     </span>
   );
 }
