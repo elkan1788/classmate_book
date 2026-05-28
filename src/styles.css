@@ -34,6 +34,196 @@ button {
   cursor: pointer;
 }
 
+main {
+  min-height: 100vh;
+}
+
+.play-panel {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgb(255 250 240 / 94%), rgb(241 232 216 / 84%)),
+    var(--paper-soft);
+  box-shadow: 0 18px 50px rgb(81 58 27 / 10%);
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.play-console {
+  margin-bottom: 1.5rem;
+}
+
+.play-console-body {
+  align-items: stretch;
+  display: grid;
+  gap: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.slide-counter {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.play-panel-kicker {
+  color: var(--gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.24em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.play-panel h3 {
+  color: var(--ink);
+  font-size: 1.25rem;
+  margin: 0.35rem 0 0;
+}
+
+.play-panel p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0.55rem 0 0;
+}
+
+.play-panel-grid {
+  align-items: end;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, max-content));
+  margin-top: 1rem;
+}
+
+.play-panel-footer {
+  align-items: center;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+}
+
+.play-panel-progress {
+  align-items: center;
+  background: linear-gradient(180deg, rgb(247 240 227 / 78%), rgb(236 223 201 / 96%));
+  border: 1px solid rgb(126 96 52 / 14%);
+  border-radius: 999px;
+  color: var(--ink);
+  display: inline-flex;
+  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  padding: 0.45rem 1rem;
+  margin-left: 100px;
+}
+
+.play-select {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.play-select-inline {
+  align-items: center;
+  display: flex;
+  gap: 0.65rem;
+}
+
+.play-select span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.play-select select {
+  background: rgb(255 255 255 / 74%);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  min-width: 120px;
+  padding: 0.72rem 0.8rem;
+}
+
+.slide-overlay {
+  inset: 0;
+  overflow: auto;
+  padding: 1.25rem;
+  position: fixed;
+  z-index: 50;
+}
+
+.slide-overlay::before {
+  background:
+    linear-gradient(180deg, rgb(247 240 227 / 90%), rgb(247 240 227 / 96%)),
+    radial-gradient(circle at 20% 12%, rgb(167 122 54 / 14%), transparent 26%);
+  content: "";
+  inset: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.slide-overlay-top {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 88rem;
+  padding-bottom: 1rem;
+}
+
+.slide-overlay-meta {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  gap: 1rem;
+}
+
+.slide-overlay-nav {
+  align-items: center;
+  display: flex;
+  gap: 0.65rem;
+}
+
+.slide-overlay-content {
+  margin: 0 auto;
+  max-width: 88rem;
+}
+
+.slide-overlay-smooth .slide-overlay-content {
+  animation: slide-enter-smooth 360ms ease both;
+}
+
+.slide-overlay-left .slide-overlay-content {
+  animation: slide-enter-left 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.slide-overlay-right .slide-overlay-content {
+  animation: slide-enter-right 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.slide-overlay-blind .slide-overlay-content {
+  animation: slide-enter-blind 420ms ease both;
+}
+
+.slide-overlay-fade .slide-overlay-content {
+  animation: slide-enter-fade 300ms ease both;
+}
+
+.slide-overlay-zoom .slide-overlay-content {
+  animation: slide-enter-zoom 320ms ease both;
+}
+
+.slide-overlay-flip .slide-overlay-content {
+  animation: slide-enter-flip 380ms ease both;
+}
+
 .gate,
 .hero {
   position: relative;
@@ -418,6 +608,22 @@ button {
   padding-top: 3.75rem;
 }
 
+.profile-toolbar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 88rem;
+}
+
+.slide-nav {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.65rem;
+}
+
 .profile-shell.is-closing .profile-content {
   animation: profile-content-exit 240ms ease both;
 }
@@ -507,6 +713,88 @@ button {
   to {
     opacity: 0;
     transform: translateX(-10px);
+  }
+}
+
+@keyframes slide-enter-smooth {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slide-enter-left {
+  from {
+    opacity: 0;
+    transform: translateX(36px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-enter-right {
+  from {
+    opacity: 0;
+    transform: translateX(-36px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-enter-blind {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.7;
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-enter-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-enter-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-enter-flip {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(18deg) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0) translateY(0);
   }
 }
 
@@ -748,6 +1036,15 @@ button {
   .postcard-profile {
     grid-template-columns: 0.78fr 1.22fr;
   }
+
+  .play-panel-grid {
+    grid-template-columns: repeat(6, max-content);
+  }
+
+  .play-console-counter strong,
+  .slide-counter {
+    font-size: 1.1rem;
+  }
 }
 
 @media (max-width: 700px) {
@@ -802,6 +1099,19 @@ button {
 
   .gate .river {
     display: none;
+  }
+
+  .play-console-actions,
+  .play-console-body {
+    width: 100%;
+  }
+
+  .play-select-inline {
+    width: 100%;
+  }
+
+  .play-console-body {
+    grid-template-columns: 1fr;
   }
 
   .hero {
@@ -881,5 +1191,28 @@ button {
   .gate .skyline {
     opacity: 1;
     transform: none;
+  }
+}
+
+@media (min-width: 1400px) {
+  .hero {
+    min-height: 500px;
+  }
+
+  .classmate-card {
+    min-height: 560px;
+  }
+
+  .classic-profile {
+    min-height: 72vh;
+    padding: 1.25rem;
+  }
+
+  .profile-section {
+    padding: 1.4rem;
+  }
+
+  .play-panel {
+    padding: 1.35rem 1.45rem;
   }
 }

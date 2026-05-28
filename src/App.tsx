@@ -1,5 +1,6 @@
 import {
   ArrowLeft,
+  ArrowRight,
   BadgeCheck,
   BriefcaseBusiness,
   Building2,
@@ -17,7 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import shanghaiSkyline from "./assets/shanghai-skyline.jpg";
 import { classmates } from "./data/classmates";
 import type { Classmate } from "./types";
@@ -25,6 +26,16 @@ import type { Classmate } from "./types";
 const ACCESS_CODE = import.meta.env.VITE_ACCESS_CODE?.trim() ?? "";
 const AUTH_KEY = "c9-classmate-book-authenticated";
 const PROFILE_EXIT_MS = 500;
+const SLIDE_STEP_MS = 1000;
+const SLIDE_TRANSITIONS = [
+  "smooth",
+  "left",
+  "right",
+  "blind",
+  "fade",
+  "zoom",
+] as const;
+type SlideTransition = (typeof SLIDE_TRANSITIONS)[number];
 const avatarAssets = import.meta.glob("./assets/avatar/*", {
   eager: true,
   import: "default",
@@ -54,6 +65,14 @@ function App() {
   );
   const [isProfileClosing, setIsProfileClosing] = useState(false);
   const [query, setQuery] = useState("");
+  const [slidePlaying, setSlidePlaying] = useState(false);
+  const [slideDelay, setSlideDelay] = useState(8);
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [slideTransition, setSlideTransition] = useState<SlideTransition>("smooth");
+  const isPlayMode = useMemo(() => {
+    const url = new URL(window.location.href);
+    return url.searchParams.get("play") === "1";
+  }, []);
 
   const visibleClassmates = useMemo(() => {
     const keyword = query.trim().toLowerCase();
@@ -76,6 +95,31 @@ function App() {
     });
   }, [query]);
 
+  useEffect(() => {
+    if (!isPlayMode) {
+      setSlidePlaying(false);
+      return;
+    }
+
+    if (slidePlaying) {
+      return;
+    }
+
+    setSelectedClassmate(visibleClassmates[slideIndex] ?? visibleClassmates[0] ?? null);
+  }, [isPlayMode, slideIndex, slidePlaying, visibleClassmates]);
+
+  useEffect(() => {
+    if (!isPlayMode || !slidePlaying || visibleClassmates.length <= 1) {
+      return undefined;
+    }
+
+    const interval = window.setInterval(() => {
+      setSlideIndex((current) => (current + 1) % visibleClassmates.length);
+    }, Math.max(3, slideDelay) * SLIDE_STEP_MS);
+
+    return () => window.clearInterval(interval);
+  }, [isPlayMode, slideDelay, slidePlaying, visibleClassmates.length]);
+
   function handleAuthenticated() {
     window.localStorage.setItem(AUTH_KEY, "true");
     setIsAuthed(true);
@@ -94,6 +138,29 @@ function App() {
     }, PROFILE_EXIT_MS);
   }
 
+  function openPlayMode() {
+    if (visibleClassmates.length === 0) return;
+    setSelectedClassmate(visibleClassmates[slideIndex] ?? visibleClassmates[0]);
+    setSlidePlaying(true);
+  }
+
+  function stopPlayMode() {
+    setSlidePlaying(false);
+  }
+
+  function goToSlide(nextIndex: number) {
+    if (visibleClassmates.length === 0) return;
+
+    const total = visibleClassmates.length;
+    const normalized = ((nextIndex % total) + total) % total;
+    setSlideIndex(normalized);
+    setSelectedClassmate(visibleClassmates[normalized]);
+  }
+
+  const currentSlide = visibleClassmates.length
+    ? visibleClassmates[slideIndex] ?? visibleClassmates[0]
+    : null;
+
   if (!isAuthed) {
     return <AccessGate onAuthenticated={handleAuthenticated} />;
   }
@@ -103,6 +170,23 @@ function App() {
       <Hero query={query} onQueryChange={setQuery} />
 
       <section className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-8 sm:px-8">
+        {isPlayMode && (
+          <div className="play-console">
+            <div className="play-console-body">
+              <PlayModePanel
+                delay={slideDelay}
+                isPlaying={slidePlaying}
+                slideTransition={slideTransition}
+                progress={`${visibleClassmates.length === 0 ? 0 : slideIndex + 1} / ${visibleClassmates.length}`}
+                onDelayChange={setSlideDelay}
+                onPlay={openPlayMode}
+                onStop={stopPlayMode}
+                onTransitionChange={setSlideTransition}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
             <p className="text-sm uppercase tracking-[0.28em] text-[var(--gold)]">
@@ -139,6 +223,12 @@ function App() {
           classmate={selectedClassmate}
           isClosing={isProfileClosing}
           onClose={closeProfile}
+          isPlayMode={isPlayMode}
+          slideTransition={slideTransition}
+          onNext={isPlayMode ? () => goToSlide(slideIndex + 1) : undefined}
+          onPrevious={isPlayMode ? () => goToSlide(slideIndex - 1) : undefined}
+          slideIndex={slideIndex}
+          slideTotal={visibleClassmates.length}
         />
       )}
     </main>
@@ -329,25 +419,121 @@ function ProfileOverlay({
   classmate,
   isClosing,
   onClose,
+  isPlayMode,
+  onNext,
+  onPrevious,
+  slideIndex,
+  slideTotal,
+  slideTransition,
 }: {
   classmate: Classmate;
   isClosing: boolean;
   onClose: () => void;
+  isPlayMode: boolean;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  slideIndex: number;
+  slideTotal: number;
+  slideTransition: SlideTransition;
 }) {
   return (
-    <div className={`profile-shell${isClosing ? " is-closing" : ""}`}>
-      <button
-        className="ghost-button profile-back-button"
-        onClick={onClose}
-        type="button"
-      >
-        <ArrowLeft size={18} />
-        返回首页
-      </button>
+    <div className={`profile-shell profile-shell-${slideTransition}${isClosing ? " is-closing" : ""}`}>
+      <div className="profile-toolbar">
+        <button
+          className="ghost-button profile-back-button"
+          onClick={onClose}
+          type="button"
+        >
+          <ArrowLeft size={18} />
+          {isPlayMode ? "退出播放" : "返回首页"}
+        </button>
+        {isPlayMode && (
+          <div className="slide-nav">
+            <button className="ghost-button" onClick={onPrevious} type="button">
+              <ArrowLeft size={16} />
+              上一位
+            </button>
+            <strong className="slide-counter">
+              {slideIndex + 1} / {slideTotal}
+            </strong>
+            <button className="ghost-button" onClick={onNext} type="button">
+              下一位
+              <ArrowRight size={16} />
+            </button>
+          </div>
+        )}
+      </div>
       <div className="profile-content mx-auto w-full max-w-6xl">
         <ClassicProfile classmate={classmate} />
       </div>
     </div>
+  );
+}
+
+function PlayModePanel({
+  delay,
+  isPlaying,
+  progress,
+  onDelayChange,
+  onPlay,
+  onStop,
+  onTransitionChange,
+  slideTransition,
+}: {
+  delay: number;
+  isPlaying: boolean;
+  progress: string;
+  onDelayChange: (value: number) => void;
+  onPlay: () => void;
+  onStop: () => void;
+  onTransitionChange: (value: SlideTransition) => void;
+  slideTransition: SlideTransition;
+}) {
+  return (
+    <section className="play-panel">
+      <div>
+        <p className="play-panel-kicker">Display mode</p>
+        <h3>幻灯片播放控制台</h3>
+      </div>
+      <div className="play-panel-grid">
+        <button className="primary-button" onClick={onPlay} type="button">
+          <UserRound size={18} />
+          开始播放
+        </button>
+        <label className="play-select play-select-inline">
+          <span>停留时间</span>
+          <select
+            value={delay}
+            onChange={(event) => onDelayChange(Number(event.target.value))}
+          >
+            <option value={5}>5 秒</option>
+            <option value={8}>8 秒</option>
+            <option value={12}>12 秒</option>
+            <option value={15}>15 秒</option>
+          </select>
+        </label>
+        <label className="play-select play-select-inline">
+          <span>切换方式</span>
+          <select
+            value={slideTransition}
+            onChange={(event) =>
+              onTransitionChange(event.target.value as SlideTransition)
+            }
+          >
+            <option value="smooth">平滑</option>
+            <option value="left">左滑</option>
+            <option value="right">右滑</option>
+            <option value="blind">百叶窗</option>
+            <option value="fade">淡入淡出</option>
+            <option value="zoom">缩放切换</option>
+            <option value="flip">翻转切换</option>
+          </select>
+        </label>
+        <strong className="play-panel-progress" aria-label="当前进度">
+          {progress}
+        </strong>
+      </div>
+    </section>
   );
 }
 
