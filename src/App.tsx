@@ -68,6 +68,7 @@ function App() {
   const [slidePlaying, setSlidePlaying] = useState(false);
   const [slideDelay, setSlideDelay] = useState(8);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [slideCountdownMs, setSlideCountdownMs] = useState(8000);
   const [slideTransition, setSlideTransition] = useState<SlideTransition>("smooth");
   const isPlayMode = useMemo(() => {
     const url = new URL(window.location.href);
@@ -100,11 +101,20 @@ function App() {
       return undefined;
     }
 
-    const interval = window.setInterval(() => {
-      setSlideIndex((current) => (current + 1) % visibleClassmates.length);
-    }, Math.max(3, slideDelay) * SLIDE_STEP_MS);
+    const tick = window.setInterval(() => {
+      setSlideCountdownMs((current) => {
+        const next = current - 100;
 
-    return () => window.clearInterval(interval);
+        if (next <= 0) {
+          setSlideIndex((currentIndex) => (currentIndex + 1) % visibleClassmates.length);
+          return slideDelay * SLIDE_STEP_MS;
+        }
+
+        return next;
+      });
+    }, 100);
+
+    return () => window.clearInterval(tick);
   }, [isPlayMode, slideDelay, slidePlaying, visibleClassmates.length]);
 
   function handleAuthenticated() {
@@ -128,6 +138,7 @@ function App() {
   function openPlayMode() {
     if (visibleClassmates.length === 0) return;
     setSelectedClassmate(visibleClassmates[slideIndex] ?? visibleClassmates[0]);
+    setSlideCountdownMs(slideDelay * SLIDE_STEP_MS);
     setSlidePlaying(true);
   }
 
@@ -147,6 +158,7 @@ function App() {
     const normalized = ((nextIndex % total) + total) % total;
     setSlideIndex(normalized);
     setSelectedClassmate(visibleClassmates[normalized]);
+    setSlideCountdownMs(slideDelay * SLIDE_STEP_MS);
   }
 
   const currentSlide = visibleClassmates.length
@@ -154,6 +166,8 @@ function App() {
     : null;
   const activeClassmate =
     isPlayMode && slidePlaying ? currentSlide : selectedClassmate;
+  const countdownPercent =
+    slideDelay > 0 ? Math.max(0, Math.min(100, (slideCountdownMs / (slideDelay * SLIDE_STEP_MS)) * 100)) : 0;
 
   if (!isAuthed) {
     return <AccessGate onAuthenticated={handleAuthenticated} />;
@@ -161,6 +175,16 @@ function App() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[var(--paper)] text-[var(--ink)]">
+      {isPlayMode && slidePlaying && (
+        <div className="playback-bar" aria-hidden="true">
+          <div
+            className="playback-bar-fill"
+            style={{
+              width: `${countdownPercent}%`,
+            }}
+          />
+        </div>
+      )}
       <Hero query={query} onQueryChange={setQuery} />
 
       <section className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-8 sm:px-8">
@@ -170,12 +194,12 @@ function App() {
               <PlayModePanel
                 delay={slideDelay}
                 isPlaying={slidePlaying}
-                slideTransition={slideTransition}
                 progress={`${visibleClassmates.length === 0 ? 0 : slideIndex + 1} / ${visibleClassmates.length}`}
                 onDelayChange={setSlideDelay}
                 onPlay={openPlayMode}
                 onStop={stopPlayMode}
                 onTransitionChange={setSlideTransition}
+                slideTransition={slideTransition}
               />
             </div>
           </div>

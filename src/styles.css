@@ -55,6 +55,27 @@ main {
   margin-bottom: 1.5rem;
 }
 
+.playback-bar {
+  background: rgb(72 55 27 / 18%);
+  height: 10px;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 80;
+}
+
+.playback-bar-fill {
+  background: linear-gradient(90deg, #6e5322, #b98b3f 55%, #d8be7e);
+  border-radius: 0 999px 999px 0;
+  box-shadow: 0 0 18px rgb(185 139 63 / 32%);
+  height: 100%;
+  margin-left: auto;
+  transition: width 100ms linear;
+  width: 100%;
+}
+
 .play-console-body {
   align-items: stretch;
   display: grid;
