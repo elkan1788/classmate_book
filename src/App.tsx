@@ -96,19 +96,6 @@ function App() {
   }, [query]);
 
   useEffect(() => {
-    if (!isPlayMode) {
-      setSlidePlaying(false);
-      return;
-    }
-
-    if (slidePlaying) {
-      return;
-    }
-
-    setSelectedClassmate(visibleClassmates[slideIndex] ?? visibleClassmates[0] ?? null);
-  }, [isPlayMode, slideIndex, slidePlaying, visibleClassmates]);
-
-  useEffect(() => {
     if (!isPlayMode || !slidePlaying || visibleClassmates.length <= 1) {
       return undefined;
     }
@@ -148,6 +135,11 @@ function App() {
     setSlidePlaying(false);
   }
 
+  function exitPlayMode() {
+    setSlidePlaying(false);
+    closeProfile();
+  }
+
   function goToSlide(nextIndex: number) {
     if (visibleClassmates.length === 0) return;
 
@@ -160,6 +152,8 @@ function App() {
   const currentSlide = visibleClassmates.length
     ? visibleClassmates[slideIndex] ?? visibleClassmates[0]
     : null;
+  const activeClassmate =
+    isPlayMode && slidePlaying ? currentSlide : selectedClassmate;
 
   if (!isAuthed) {
     return <AccessGate onAuthenticated={handleAuthenticated} />;
@@ -218,11 +212,11 @@ function App() {
         )}
       </section>
 
-      {selectedClassmate && (
+      {activeClassmate && (
         <ProfileOverlay
-          classmate={selectedClassmate}
+          classmate={activeClassmate}
           isClosing={isProfileClosing}
-          onClose={closeProfile}
+          onClose={isPlayMode ? exitPlayMode : closeProfile}
           isPlayMode={isPlayMode}
           slideTransition={slideTransition}
           onNext={isPlayMode ? () => goToSlide(slideIndex + 1) : undefined}
