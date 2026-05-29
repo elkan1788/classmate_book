@@ -18,7 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import shanghaiSkyline from "./assets/shanghai-skyline.jpg";
 import { classmates } from "./data/classmates";
 import type { Classmate } from "./types";
@@ -34,6 +34,7 @@ const SLIDE_TRANSITIONS = [
   "blind",
   "fade",
   "zoom",
+  "flip",
 ] as const;
 type SlideTransition = (typeof SLIDE_TRANSITIONS)[number];
 const avatarAssets = import.meta.glob("./assets/avatar/*", {
@@ -70,6 +71,16 @@ function App() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [slideCountdownMs, setSlideCountdownMs] = useState(8000);
   const [slideTransition, setSlideTransition] = useState<SlideTransition>("smooth");
+  const [slideTransitionMs, setSlideTransitionMs] = useState(1000);
+  const [slideTransitionMode, setSlideTransitionMode] = useState<
+    SlideTransition | "random"
+  >("smooth");
+  const [currentTransition, setCurrentTransition] =
+    useState<SlideTransition>("smooth");
+  const [playbackTransitionMode, setPlaybackTransitionMode] = useState<
+    SlideTransition | "random"
+  >("smooth");
+  const lastRandomTransitionRef = useRef<SlideTransition>("smooth");
   const isPlayMode = useMemo(() => {
     const url = new URL(window.location.href);
     return url.searchParams.get("play") === "1";
@@ -117,6 +128,23 @@ function App() {
     return () => window.clearInterval(tick);
   }, [isPlayMode, slideDelay, slidePlaying, visibleClassmates.length]);
 
+  function resolveSlideTransition() {
+    if (playbackTransitionMode !== "random") {
+      return playbackTransitionMode;
+    }
+
+    const candidates = SLIDE_TRANSITIONS.filter(
+      (transition) => transition !== lastRandomTransitionRef.current,
+    );
+
+    const nextTransition =
+      candidates[Math.floor(Math.random() * candidates.length)] ?? "smooth";
+
+    lastRandomTransitionRef.current = nextTransition;
+
+    return nextTransition;
+  }
+
   function handleAuthenticated() {
     window.localStorage.setItem(AUTH_KEY, "true");
     setIsAuthed(true);
@@ -139,6 +167,21 @@ function App() {
     if (visibleClassmates.length === 0) return;
     setSelectedClassmate(visibleClassmates[slideIndex] ?? visibleClassmates[0]);
     setSlideCountdownMs(slideDelay * SLIDE_STEP_MS);
+    setPlaybackTransitionMode(slideTransitionMode);
+    const initialTransition =
+      slideTransitionMode === "random"
+        ? (() => {
+            const candidates = SLIDE_TRANSITIONS.filter(
+              (transition) => transition !== lastRandomTransitionRef.current,
+            );
+            const nextTransition =
+              candidates[Math.floor(Math.random() * candidates.length)] ??
+              "smooth";
+            lastRandomTransitionRef.current = nextTransition;
+            return nextTransition;
+          })()
+        : slideTransitionMode;
+    setCurrentTransition(initialTransition);
     setSlidePlaying(true);
   }
 
@@ -159,6 +202,7 @@ function App() {
     setSlideIndex(normalized);
     setSelectedClassmate(visibleClassmates[normalized]);
     setSlideCountdownMs(slideDelay * SLIDE_STEP_MS);
+    setCurrentTransition(resolveSlideTransition());
   }
 
   const currentSlide = visibleClassmates.length
@@ -166,6 +210,8 @@ function App() {
     : null;
   const activeClassmate =
     isPlayMode && slidePlaying ? currentSlide : selectedClassmate;
+  const effectiveTransition =
+    isPlayMode && slidePlaying ? currentTransition : slideTransition;
   const countdownPercent =
     slideDelay > 0 ? Math.max(0, Math.min(100, (slideCountdownMs / (slideDelay * SLIDE_STEP_MS)) * 100)) : 0;
 
@@ -199,7 +245,11 @@ function App() {
                 onPlay={openPlayMode}
                 onStop={stopPlayMode}
                 onTransitionChange={setSlideTransition}
+                onTransitionModeChange={setSlideTransitionMode}
+                onTransitionMsChange={setSlideTransitionMs}
                 slideTransition={slideTransition}
+                slideTransitionMode={slideTransitionMode}
+                slideTransitionMs={slideTransitionMs}
               />
             </div>
           </div>
@@ -238,11 +288,13 @@ function App() {
 
       {activeClassmate && (
         <ProfileOverlay
+          key={`${activeClassmate.id}-${slideIndex}-${effectiveTransition}`}
           classmate={activeClassmate}
           isClosing={isProfileClosing}
           onClose={isPlayMode ? exitPlayMode : closeProfile}
           isPlayMode={isPlayMode}
-          slideTransition={slideTransition}
+          slideTransition={effectiveTransition}
+          slideTransitionMs={slideTransitionMs}
           onNext={isPlayMode ? () => goToSlide(slideIndex + 1) : undefined}
           onPrevious={isPlayMode ? () => goToSlide(slideIndex - 1) : undefined}
           slideIndex={slideIndex}
@@ -443,6 +495,7 @@ function ProfileOverlay({
   slideIndex,
   slideTotal,
   slideTransition,
+  slideTransitionMs,
 }: {
   classmate: Classmate;
   isClosing: boolean;
@@ -453,9 +506,12 @@ function ProfileOverlay({
   slideIndex: number;
   slideTotal: number;
   slideTransition: SlideTransition;
+  slideTransitionMs: number;
 }) {
   return (
-    <div className={`profile-shell profile-shell-${slideTransition}${isClosing ? " is-closing" : ""}`}>
+    <div
+      className={`profile-shell profile-shell-${slideTransition}${isClosing ? " is-closing" : ""}`}
+    >
       <div className="profile-toolbar">
         <button
           className="ghost-button profile-back-button"
@@ -481,7 +537,10 @@ function ProfileOverlay({
           </div>
         )}
       </div>
-      <div className="profile-content mx-auto w-full max-w-6xl">
+      <div
+        className={`profile-content profile-content-${slideTransition} mx-auto w-full max-w-6xl`}
+        style={{ animationDuration: `${slideTransitionMs}ms` }}
+      >
         <ClassicProfile classmate={classmate} />
       </div>
     </div>
@@ -496,7 +555,11 @@ function PlayModePanel({
   onPlay,
   onStop,
   onTransitionChange,
+  onTransitionModeChange,
+  onTransitionMsChange,
   slideTransition,
+  slideTransitionMode,
+  slideTransitionMs,
 }: {
   delay: number;
   isPlaying: boolean;
@@ -505,7 +568,11 @@ function PlayModePanel({
   onPlay: () => void;
   onStop: () => void;
   onTransitionChange: (value: SlideTransition) => void;
+  onTransitionModeChange: (value: SlideTransition | "random") => void;
+  onTransitionMsChange: (value: number) => void;
   slideTransition: SlideTransition;
+  slideTransitionMode: SlideTransition | "random";
+  slideTransitionMs: number;
 }) {
   return (
     <section className="play-panel">
@@ -533,11 +600,14 @@ function PlayModePanel({
         <label className="play-select play-select-inline">
           <span>切换方式</span>
           <select
-            value={slideTransition}
+            value={slideTransitionMode}
             onChange={(event) =>
-              onTransitionChange(event.target.value as SlideTransition)
+              onTransitionModeChange(
+                event.target.value as SlideTransition | "random",
+              )
             }
           >
+            <option value="random">随机</option>
             <option value="smooth">平滑</option>
             <option value="left">左滑</option>
             <option value="right">右滑</option>
@@ -545,6 +615,19 @@ function PlayModePanel({
             <option value="fade">淡入淡出</option>
             <option value="zoom">缩放切换</option>
             <option value="flip">翻转切换</option>
+          </select>
+        </label>
+        <label className="play-select play-select-inline">
+          <span>切换时长</span>
+          <select
+            value={slideTransitionMs}
+            onChange={(event) => onTransitionMsChange(Number(event.target.value))}
+          >
+            <option value={600}>0.6 秒</option>
+            <option value={800}>0.8 秒</option>
+            <option value={1000}>1 秒</option>
+            <option value={1300}>1.3 秒</option>
+            <option value={1500}>1.5 秒</option>
           </select>
         </label>
         <strong className="play-panel-progress" aria-label="当前进度">

@@ -255,6 +255,39 @@ main {
   animation: slide-enter-flip 380ms ease both;
 }
 
+.profile-content {
+  margin: 0 auto;
+  max-width: 88rem;
+}
+
+.profile-content-smooth {
+  animation: profile-content-smooth 1s ease both;
+}
+
+.profile-content-left {
+  animation: profile-content-left 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.profile-content-right {
+  animation: profile-content-right 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.profile-content-blind {
+  animation: profile-content-blind 1s ease both;
+}
+
+.profile-content-fade {
+  animation: profile-content-fade 1s ease both;
+}
+
+.profile-content-zoom {
+  animation: profile-content-zoom 1s ease both;
+}
+
+.profile-content-flip {
+  animation: profile-content-flip 1s ease both;
+}
+
 .gate,
 .hero {
   position: relative;
@@ -635,7 +668,6 @@ main {
 }
 
 .profile-content {
-  animation: profile-content-enter 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
   padding-top: 3.75rem;
 }
 
@@ -708,6 +740,88 @@ main {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes profile-content-smooth {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes profile-content-left {
+  from {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes profile-content-right {
+  from {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes profile-content-blind {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.8;
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes profile-content-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes profile-content-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes profile-content-flip {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(28deg) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0) translateY(0);
   }
 }
 
