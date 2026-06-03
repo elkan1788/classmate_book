@@ -641,60 +641,61 @@ function PlayModePanel({
 function ClassicProfile({ classmate }: { classmate: Classmate }) {
   return (
     <article className="classic-profile">
-      <aside>
+      <div className="profile-leaves profile-leaves-top" aria-hidden="true" />
+      <div className="profile-leaves profile-leaves-bottom" aria-hidden="true" />
+      <div className="profile-hello" aria-hidden="true">
+        Hello!
+      </div>
+      <div className="profile-image-panel">
         <AvatarImage
           alt={`${classmate.name}头像`}
           className="classic-avatar"
           src={classmate.avatar}
         />
-        <p className="mt-5 text-sm uppercase tracking-[0.28em] text-[var(--gold)]">
-          {classmate.title}
-        </p>
-        <h2 className="mt-2 text-4xl font-semibold">{classmate.name}</h2>
-        <div className="mt-6 grid gap-3">
-          <DetailRow
-            icon={BriefcaseBusiness}
-            label="行业"
-            value={classmate.industry}
-          />
-          <DetailRow icon={MapPin} label="籍贯" value={classmate.hometown} />
-          <DetailRow icon={Orbit} label="生肖" value={classmate.zodiac} />
-          <DetailRow icon={CakeSlice} label="星座" value={classmate.constellation} />
-          <DetailRow
-            icon={BadgeCheck}
-            label="3C方向"
-            value={classmate.direction3c}
-          />
-        </div>
-      </aside>
+      </div>
 
-      <section>
-        <div className="profile-section">
-          <h3>
-            <Tag size={16} />
-            <span>花名出处</span>
-          </h3>
-          <p>{classmate.story}</p>
+      <section className="profile-info-panel">
+        <div className="profile-title-block">
+          <h2>{classmate.name}</h2>
+          <p aria-hidden="true">Nice to meet you</p>
         </div>
-        <div className="profile-section">
-          <h3>
-            <Sparkles size={16} />
-            <span>兴趣爱好</span>
-          </h3>
+        <div className="profile-line profile-nickname-line">
+          <span className="profile-line-label">
+            <Feather size={18} />
+            花名：<strong>{classmate.title}</strong>
+          </span>
+          
+        </div>
+        <div className="profile-line profile-direction-line">
+          <span className="profile-line-label">
+            <BadgeCheck size={18} />
+            3C方向
+          </span>
+          <strong>{classmate.direction3c}</strong>
+        </div>
+        <div className="profile-line profile-hobbies-line">
+          <span className="profile-line-label">
+            <Sparkles size={18} />
+            兴趣爱好
+          </span>
           <div className="tag-list">
             {classmate.hobbies.map((hobby) => (
               <span key={hobby}>{hobby}</span>
             ))}
           </div>
         </div>
-        <div className="profile-section">
-          <h3>
-            <MessageCircle size={16} />
-            <span>想说的话</span>
-          </h3>
-          <p className="message-text">{classmate.message}</p>
-        </div>
       </section>
+
+      <section className="profile-message-panel">
+        <h3>
+          <MessageCircle size={18} />
+          <span>想说的话</span>
+        </h3>
+        <p className="message-text">{classmate.message}</p>
+      </section>
+      <p className="profile-footer-note" aria-hidden="true">
+        同学一场，温暖同行
+      </p>
     </article>
   );
 }
