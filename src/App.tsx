@@ -538,7 +538,7 @@ function ProfileOverlay({
         )}
       </div>
       <div
-        className={`profile-content profile-content-${slideTransition} mx-auto w-full max-w-6xl`}
+        className={`profile-content profile-content-${slideTransition}`}
         style={{ animationDuration: `${slideTransitionMs}ms` }}
       >
         <ClassicProfile classmate={classmate} />

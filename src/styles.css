@@ -257,7 +257,7 @@ main {
 
 .profile-content {
   margin: 0 auto;
-  max-width: 88rem;
+  width: min(100%, 78rem);
 }
 
 .profile-content-smooth {
@@ -1365,6 +1365,15 @@ main {
 }
 
 @media (min-width: 900px) {
+  .gate .skyline {
+    height: min(100vh, 56rem);
+  }
+
+  .gate .skyline img {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
   .classic-profile {
     align-items: center;
     gap: 1.6rem 2.6rem;
@@ -1671,6 +1680,10 @@ main {
     min-height: 500px;
   }
 
+  .gate .skyline {
+    height: min(100vh, 62rem);
+  }
+
   .classmate-card {
     min-height: 560px;
   }
@@ -1686,5 +1699,13 @@ main {
 
   .play-panel {
     padding: 1.35rem 1.45rem;
+  }
+
+  .profile-content {
+    width: min(100%, 70rem);
+  }
+
+  .classic-profile {
+    min-height: 68vh;
   }
 }
