@@ -63,14 +63,18 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-81",
     "name": "李鑫",
-    "title": "樗子",
+    "title": "皇甫嵩",
     "avatar": "avatar/lixin.jpg",
     "industry": "IT/通信/电子/互联网",
     "hometown": "天津市 河西区",
     "zodiac": "猴",
     "constellation": "金牛座",
     "hobbies": [
-      "健身 吉他 写歌 看剧 美食严选"
+      "健身",
+      "吉他",
+      "写歌",
+      "看剧",
+      "美食严选"
     ],
     "direction3c": "CEO",
     "story": "两个出处，一个是大秦帝国这个剧里的赢疾的名字，樗里疾，为人稳重有力量且柔韧。一个是庄子逍遥游里的故事，樗这种树没人愿意砍不代表它没价值，把它放在别的地方，人去乘凉不是挺好的。价值不一定以主流为主，认可自我也是价值",
@@ -135,26 +139,6 @@ export const classmates: Classmate[] = [
     "template": "classic"
   },
   {
-    "id": "shanghai-class-9-76",
-    "name": "孙一清",
-    "title": "叶璃8.0",
-    "avatar": "avatar/sunyiqing.jpg",
-    "industry": "房地产/建筑业",
-    "hometown": "江苏省 盐城市",
-    "zodiac": "兔",
-    "constellation": "巨蟹座",
-    "hobbies": [
-      "旅游",
-      "徒步",
-      "历史",
-      "养生等"
-    ],
-    "direction3c": "COO",
-    "story": "古言小说《盛世嫡妃》（出版名《盛世良缘》），女主角名字",
-    "message": "这一年，在丰富充实的课程中收获满满。更有幸结识了各行各业的优秀伙伴，不仅拓宽了眼界，也被大家身上的闪光点深深感染。身为I人的我，也慢慢主动交流，收获了不少珍贵的情谊。由衷感恩组织给予的机会，未来长路，愿与各位并肩同行，继续成长！",
-    "template": "classic"
-  },
-  {
     "id": "shanghai-class-9-75",
     "name": "沈佳",
     "title": "白凤九",
@@ -164,33 +148,11 @@ export const classmates: Classmate[] = [
     "zodiac": "蛇",
     "constellation": "天秤座",
     "hobbies": [
-      "旅游 运动 追剧 逛展"
+      "旅游","运动","追剧", "逛展"
     ],
     "direction3c": "COO",
     "story": "三世三生十里桃花",
     "message": "我希望借助组织的学习平台，吸收前沿的行业知识与管理理念，实现个人能力的升级迭代。期待在组织中，与大家共同学习、协作成长，不仅能提升自己的数字化营销能力与战略思维，还能将自己多年的市场营销实战经验与大家共享，参与到有意义的集体项目中，实现个人与组织的共同成长。",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-74",
-    "name": "陈雪娇",
-    "title": "唐小山",
-    "avatar": "avatar/chenxuejiao.jpg",
-    "industry": "IT/通信/电子/互联网",
-    "hometown": "重庆市 南岸区",
-    "zodiac": "马",
-    "constellation": "双子座",
-    "hobbies": [
-      "网球",
-      "普拉提",
-      "徒步",
-      "掼蛋",
-      "火锅",
-      "旅游"
-    ],
-    "direction3c": "CEO / COO",
-    "story": "镜花缘",
-    "message": "多体验不一样的人生",
     "template": "classic"
   },
   {
@@ -215,77 +177,6 @@ export const classmates: Classmate[] = [
     "template": "classic"
   },
   {
-    "id": "shanghai-class-9-72",
-    "name": "王秀佳",
-    "title": "花影",
-    "avatar": "avatar/wangxiujia.jpg",
-    "industry": "IT/通信/电子/互联网",
-    "hometown": "浙江省 绍兴市",
-    "zodiac": "蛇",
-    "constellation": "双鱼座",
-    "hobbies": [
-      "拥抱自然",
-      "交朋友",
-      "旅行",
-      "戏剧电影"
-    ],
-    "direction3c": "COO",
-    "story": "花影只代表我自己，我希望为自己在C的旅程写一个为期十年关于花影的剧本。",
-    "message": "我希望能够顺着心之所向，走到梦想再见的地方。我会珍惜这段旅程中每一个闪耀的大家，希望能有机会玩在一起，共创在一起。",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-71",
-    "name": "张颖超",
-    "title": "侯伯",
-    "avatar": "avatar/zhangyingchao.jpg",
-    "industry": "B.自主创业",
-    "hometown": "浙江省 绍兴市",
-    "zodiac": "羊",
-    "constellation": "摩羯座",
-    "hobbies": [
-      "摆烂"
-    ],
-    "direction3c": "CEO",
-    "story": "侯伯是古代传说中的绝水之精（水神），出自明代朱谋玮《玄览·变怪篇》",
-    "message": "修炼内功",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-70",
-    "name": "李青青",
-    "title": "青黛",
-    "avatar": "avatar/liqingqing.jpg",
-    "industry": "B.自主创业",
-    "hometown": "江苏省 扬州市",
-    "zodiac": "鼠",
-    "constellation": "射手座",
-    "hobbies": [
-      "喝茶"
-    ],
-    "direction3c": "CEO / COO",
-    "story": "一个国风动画 赤足紫衣 、觉醒成长的动画角色",
-    "message": "期待9.0的学弟学妹们，玩好 学好，快乐每一天",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-69",
-    "name": "上官婉儿",
-    "title": "上官婉儿",
-    "avatar": "avatar/shangguanwaner.jpg",
-    "industry": "B.自主创业",
-    "hometown": "内蒙古自治区 呼伦贝尔市",
-    "zodiac": "鸡",
-    "constellation": "双鱼座",
-    "hobbies": [
-      "徒步 麻将"
-    ],
-    "direction3c": "COO",
-    "story": "唐朝女官",
-    "message": "自由的体验吧",
-    "template": "classic"
-  },
-  {
     "id": "shanghai-class-9-68",
     "name": "陆奇寒",
     "title": "厉南星",
@@ -302,40 +193,6 @@ export const classmates: Classmate[] = [
     "direction3c": "CEO",
     "story": "厉南星是梁羽生武侠小说《侠骨丹心》中的男二号，天魔教少主、红缨会总舵主，与金逐流并称“武林双秀”。他琴剑双绝、飘逸出尘，以长城抚琴赠知音金逐流闻名，后继承红缨会率领群雄抗清，是梁羽生笔下凌厉与诗意并存的经典形象。",
     "message": "希望在这里，结交来自各地各行各业的朋友，拓展自己的视野，认识更大的世界，了解更多的商业模式，和志同道合的人，开创未来的无限可能",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-67",
-    "name": "谢晓峰",
-    "title": "谢晓峰",
-    "avatar": "avatar/xiexiaofeng.jpg",
-    "industry": "B.自主创业",
-    "hometown": "广东省 江门市",
-    "zodiac": "狗",
-    "constellation": "巨蟹座",
-    "hobbies": [
-      "讲故事"
-    ],
-    "direction3c": "CEO",
-    "story": "三少爷的剑",
-    "message": "当天说",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-66",
-    "name": "陈进宝",
-    "title": "进宝仙子",
-    "avatar": "avatar/chenjinbao.jpg",
-    "industry": "B.自主创业",
-    "hometown": "广东省 深圳市",
-    "zodiac": "猪",
-    "constellation": "双鱼座",
-    "hobbies": [
-      "撸铁 花道 香道 文旅 穿搭"
-    ],
-    "direction3c": "CEO",
-    "story": "财神到的进宝仙子",
-    "message": "破圈  动态学习 整合商业体系螺旋式成长 整合资源",
     "template": "classic"
   },
   {
@@ -378,7 +235,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-63",
     "name": "王玉珂",
-    "title": "谢云流",
+    "title": "谢流云",
     "avatar": "avatar/wangyuke.jpg",
     "industry": "服务业",
     "hometown": "浙江省 金华市",
@@ -392,25 +249,6 @@ export const classmates: Classmate[] = [
     "direction3c": "CEO",
     "story": "剑侠情缘网络版叁，叛逆的纯阳宫大师兄，号称剑魔",
     "message": "守正出奇",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-62",
-    "name": "张剑锋",
-    "title": "哲别",
-    "avatar": "avatar/zhangjianfeng.jpg",
-    "industry": "B.自主创业",
-    "hometown": "浙江省 嘉兴市",
-    "zodiac": "狗",
-    "constellation": "天蝎座",
-    "hobbies": [
-      "交友",
-      "阅读",
-      "快走"
-    ],
-    "direction3c": "CEO",
-    "story": "射雕英雄传",
-    "message": "家庭式健康管理专家，精准健康评估的引领者，终身学习的实践者，垂类ai小模型运用的先行者",
     "template": "classic"
   },
   {
@@ -434,7 +272,7 @@ export const classmates: Classmate[] = [
   },
   {
     "id": "shanghai-class-9-60",
-    "name": "宋霭龄",
+    "name": "宋莹盈",
     "title": "宋霭龄",
     "avatar": "avatar/songailing.jpg",
     "industry": "B.自主创业",
@@ -442,29 +280,11 @@ export const classmates: Classmate[] = [
     "zodiac": "狗",
     "constellation": "摩羯座",
     "hobbies": [
-      "撸猫  游泳  读书  护肤  按摩  睡觉"
+      "撸猫","游泳","读书","护肤","按摩","睡觉"
     ],
     "direction3c": "CEO",
     "story": "宋氏三姐妹大姐",
     "message": "交更多朋友",
-    "template": "classic"
-  },
-  {
-    "id": "shanghai-class-9-59",
-    "name": "龚园星",
-    "title": "妲己",
-    "avatar": "avatar/gongyuanxing.jpg",
-    "industry": "金融业",
-    "hometown": "福建省 福州市",
-    "zodiac": "兔",
-    "constellation": "射手座",
-    "hobbies": [
-      "摄影",
-      "旅行"
-    ],
-    "direction3c": "COO",
-    "story": "封神榜",
-    "message": "我是一个宠物保险的保险产品、用户增长运营，日常研究用户需求、风险定价和产品转化。任何保险需求、用户转化切磋、摄影和旅行兴趣组，欢迎1v1咖啡。",
     "template": "classic"
   },
   {
@@ -522,30 +342,9 @@ export const classmates: Classmate[] = [
     "template": "classic"
   },
   {
-    "id": "shanghai-class-9-56",
-    "name": "杨上琦",
-    "title": "景天",
-    "avatar": "avatar/yangshangqi.jpg",
-    "industry": "金融业",
-    "hometown": "云南省 昆明市",
-    "zodiac": "狗",
-    "constellation": "处女座",
-    "hobbies": [
-      "高尔夫",
-      "徒步",
-      "登山",
-      "打游戏",
-      "唱歌"
-    ],
-    "direction3c": "CEO",
-    "story": "仙剑奇侠传3男主",
-    "message": "在这样一个不讲究利益和得失的地方，结果没那么重要了。我希望自己能够深度付出，用心感受，只有这样就算没有获得想要的结果过程也是最美好的回忆。",
-    "template": "classic"
-  },
-  {
     "id": "shanghai-class-9-55",
     "name": "彭义伍",
-    "title": "萧少镃",
+    "title": "萧少铉",
     "avatar": "avatar/pengyiwu.jpg",
     "industry": "B.自主创业",
     "hometown": "河南省 南阳市",
@@ -638,7 +437,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-50",
     "name": "李玉聪",
-    "title": "曜光",
+    "title": "镜知曜",
     "avatar": "avatar/liyucong.jpg",
     "industry": "金融业",
     "hometown": "湖北省 武汉市",
@@ -728,7 +527,7 @@ export const classmates: Classmate[] = [
     "constellation": "双鱼座",
     "hobbies": [
       "听广播",
-      "海贼王踏实粉丝",
+      "海贼王粉丝",
       "看书",
       "编程"
     ],
@@ -799,7 +598,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-42",
     "name": "蔡慜",
-    "title": "暂未通过",
+    "title": "贺穆兰",
     "avatar": "avatar/caimin.jpg",
     "industry": "金融业",
     "hometown": "上海市 浦东新区",
@@ -817,7 +616,7 @@ export const classmates: Classmate[] = [
   },
   {
     "id": "shanghai-class-9-41",
-    "name": "北斗",
+    "name": "刘文靓",
     "title": "北斗",
     "avatar": "avatar/beidou.jpg",
     "industry": "金融业",
@@ -916,7 +715,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-37",
     "name": "Yuki",
-    "title": "闻人翊悬（闻人）",
+    "title": "闻人翊悬",
     "avatar": "avatar/Yuki.jpg",
     "industry": "C.自由职业",
     "hometown": "吉林省 四平市",
@@ -1009,7 +808,7 @@ export const classmates: Classmate[] = [
   },
   {
     "id": "shanghai-class-9-32",
-    "name": "燕肃",
+    "name": "孙玉华",
     "title": "燕肃",
     "avatar": "avatar/yansu.jpg",
     "industry": "IT/通信/电子/互联网",
@@ -1027,7 +826,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-31",
     "name": "刘佳",
-    "title": "谢婉莹（冰心）",
+    "title": "刘三秀",
     "avatar": "avatar/liujia.jpg",
     "industry": "文化/传媒/娱乐/体育",
     "hometown": "山东省 菏泽市",
@@ -1084,7 +883,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-29",
     "name": "陈一嘉",
-    "title": "刘家娟（阿娟）",
+    "title": "刘家娟",
     "avatar": "avatar/chenyijia.jpg",
     "industry": "B.自主创业",
     "hometown": "江苏省 无锡市",
@@ -1190,7 +989,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-18",
     "name": "李思捷",
-    "title": "单士厘、蕊珠，士厘，受兹",
+    "title": "单士厘",
     "avatar": "avatar/lisijie.jpg",
     "industry": "商业服务",
     "hometown": "福建省 福州市",
@@ -1273,7 +1072,7 @@ export const classmates: Classmate[] = [
   },
   {
     "id": "shanghai-class-9-25",
-    "name": "无限Darwin",
+    "name": "王立鹏",
     "title": "无限",
     "avatar": "avatar/wuxianDarwin.jpg",
     "industry": "金融业",
@@ -1330,7 +1129,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-19",
     "name": "梁姣",
-    "title": "神乐",
+    "title": "蚩妩",
     "avatar": "avatar/liangjiao.jpg",
     "industry": "IT/通信/电子/互联网",
     "hometown": "湖南省 永州市",
@@ -1349,7 +1148,7 @@ export const classmates: Classmate[] = [
   {
     "id": "shanghai-class-9-17",
     "name": "李林",
-    "title": "蓝凤凰",
+    "title": "沐灵",
     "avatar": "avatar/lilin.jpg",
     "industry": "B.自主创业",
     "hometown": "安徽省 六安市",
@@ -1367,7 +1166,7 @@ export const classmates: Classmate[] = [
   },
   {
     "id": "shanghai-class-9-15",
-    "name": "安姐儿",
+    "name": "尹丹",
     "title": "安姐儿",
     "avatar": "avatar/anjieer.jpg",
     "industry": "文体教育/工艺美术",
